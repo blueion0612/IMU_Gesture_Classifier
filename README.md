@@ -44,8 +44,7 @@ IMU_Gesture_Classifier/
 ├── train_stage2.py    # Stage 2 training (gesture classification)
 ├── inference.py       # Real-time inference
 ├── stats.py           # Data statistics generator
-├── README.md
-└── CLAUDE.md          # Korean documentation
+└── README.md
 ```
 
 ## Data & Pretrained Models
