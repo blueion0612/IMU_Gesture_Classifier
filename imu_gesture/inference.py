@@ -15,7 +15,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from config import IMU_CHANNELS, MSG_SIZE, UDP_PORT, FEATURE_COLS, GESTURE_NAMES
+from .config import IMU_CHANNELS, MSG_SIZE, UDP_PORT, FEATURE_COLS, GESTURE_NAMES
 
 FEATURE_IDX = [IMU_CHANNELS[c] for c in FEATURE_COLS]
 

@@ -14,7 +14,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-from config import (
+from .config import (
     STAGE1_DATA_DIR, STAGE2_DATA_DIR, REPORT_DIR,
     IMU_CHANNELS, FEATURE_COLS, GESTURE_NAMES, SAMPLE_RATE
 )

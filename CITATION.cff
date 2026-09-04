@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: If you use this software, please cite it as below.
+type: software
+title: IMU Gesture Classifier
+abstract: >-
+  Two-stage recognition of fifteen hand gestures from smartwatch accelerometer
+  and gyroscope data: a binary entry detector over a sliding window, followed by
+  a fifteen-class model over the buffer the detection opens.
+authors:
+  - family-names: Lee
+    given-names: Yuhyeon
+    orcid: https://orcid.org/0009-0001-9354-6445
+repository-code: https://github.com/blueion0612/IMU_Gesture_Classifier
+license: MIT
+keywords:
+  - inertial measurement unit
+  - gesture recognition
+  - wearable sensing
+  - deep learning

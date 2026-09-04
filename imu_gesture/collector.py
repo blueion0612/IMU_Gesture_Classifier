@@ -17,7 +17,7 @@ import queue
 from datetime import datetime
 from collections import deque, defaultdict
 
-from config import (
+from .config import (
     UDP_PORT, MSG_SIZE, IMU_CHANNELS, GESTURE_NAMES,
     STAGE1_DATA_DIR, STAGE2_DATA_DIR, SAMPLE_RATE
 )

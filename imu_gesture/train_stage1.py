@@ -23,7 +23,7 @@ from sklearn.metrics import (
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-from config import (
+from .config import (
     STAGE1_DATA_DIR, MODEL_DIR, REPORT_DIR, IMU_CHANNELS,
     FEATURE_COLS, FEATURE_IDX, SAMPLE_RATE,
     TRAIN_RATIO, VAL_RATIO, TEST_RATIO,

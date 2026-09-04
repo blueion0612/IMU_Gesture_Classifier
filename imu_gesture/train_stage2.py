@@ -19,7 +19,7 @@ from sklearn.metrics import accuracy_score, f1_score, classification_report, con
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-from config import (
+from .config import (
     STAGE2_DATA_DIR, MODEL_DIR, REPORT_DIR, IMU_CHANNELS,
     FEATURE_COLS, GESTURE_NAMES, NUM_GESTURES, SAMPLE_RATE, SEQ_LEN,
     TRAIN_RATIO, VAL_RATIO, TEST_RATIO,
