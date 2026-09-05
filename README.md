@@ -178,7 +178,7 @@ gesture_data/
 65000, which is the layout of
 [wearable-motion-capture/sensor-stream-apps](https://github.com/wearable-motion-capture/sensor-stream-apps).
 The sibling repository
-[IMU_Stream_APP_MJU](https://github.com/blueion0612/IMU_Stream_APP_MJU) sends a
+[IMU_Streamer](https://github.com/blueion0612/IMU_Streamer) sends a
 reduced **30-float** packet and is therefore **not** a drop-in source: pointing this
 collector at it captures nothing, because the length check rejects every datagram.
 Using it would mean rewriting the channel map in `config.py` and re-recording, since
@@ -200,10 +200,10 @@ the two layouts order their fields differently.
 - [IVO](https://github.com/blueion0612/IVO): the presentation controller that loads
   the checkpoints this repository trains, reading the 30-float packet and remapping
   the six channels.
-- [IMU_Stream_APP_MJU](https://github.com/blueion0612/IMU_Stream_APP_MJU): the
+- [IMU_Streamer](https://github.com/blueion0612/IMU_Streamer): the
   sibling streaming app. It sends the 30-float packet, so it is not a source for this
   collector; see Data.
-- [PPG_Classifier](https://github.com/blueion0612/PPG_Classifier) and
+- [PPG_Fist_Classifier](https://github.com/blueion0612/PPG_Fist_Classifier) and
   [sEMG_Gesture_Classifier](https://github.com/blueion0612/sEMG_Gesture_Classifier):
   the same question, hand state from a wrist signal, asked of photoplethysmography
   and of surface electromyography.
