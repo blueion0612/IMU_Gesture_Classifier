@@ -11,6 +11,8 @@ authors:
     given-names: Yuhyeon
     orcid: https://orcid.org/0009-0001-9354-6445
 repository-code: https://github.com/blueion0612/IMU_Gesture_Classifier
+version: 1.0.0
+date-released: 2026-09-05
 license: MIT
 keywords:
   - inertial measurement unit

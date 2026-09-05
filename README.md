@@ -1,20 +1,28 @@
+<div align="center">
+
 # IMU Gesture Classifier
 
 Yuhyeon Lee · 2025
 
-[![tests](https://github.com/blueion0612/IMU_Gesture_Classifier/actions/workflows/tests.yml/badge.svg)](https://github.com/blueion0612/IMU_Gesture_Classifier/actions/workflows/tests.yml)
+[![tests](https://img.shields.io/github/actions/workflow/status/blueion0612/IMU_Gesture_Classifier/tests.yml?branch=main&label=tests)](https://github.com/blueion0612/IMU_Gesture_Classifier/actions/workflows/tests.yml)
 [![License](https://img.shields.io/github/license/blueion0612/IMU_Gesture_Classifier)](LICENSE)
-[![Python](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org/)
+[![Python](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12-blue)](https://www.python.org/)
 [![Status](https://img.shields.io/badge/status-research%20code-orange)](#limitations)
 
-[**Method**](#method) · [**Data**](#data) · [**Streaming app**](https://github.com/wearable-motion-capture/sensor-stream-apps)
+[**Recordings and checkpoints**](https://drive.google.com/drive/folders/1mgxz30EclogKA0BMhB4Qonne6MmlWgjL?usp=sharing) · [**Streaming app**](https://github.com/wearable-motion-capture/sensor-stream-apps) · [**Related**](#related)
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/hero_pipeline-dark.png">
   <img alt="UDP stream feeds a binary entry detector, a detection opens a 2.5 second buffer, and a 15-class model reads that buffer" src="docs/figures/hero_pipeline.png">
 </picture>
 
-**IMU Gesture Classifier** recognises fifteen hand gestures from a smartwatch, live,
+</div>
+
+*The two-stage pipeline. Green is the entry detector that runs on every window,
+gold the classifier that runs only after a detection. The hero is the pipeline and
+not a results figure because no numbers are committed here; see Results.*
+
+**IMU Gesture Classifier** recognizes fifteen hand gestures from a smartwatch, live,
 using only the watch's accelerometer and gyroscope. Detection and classification are
 split: a cheap binary model watches the stream continuously and decides when a
 gesture has started, and only then does a fifteen-class model run on the 2.5 seconds
@@ -50,7 +58,9 @@ plots. Read those rather than trusting a summary.
 ## Quick start
 
 ```bash
-pip install -r requirements.txt
+git clone https://github.com/blueion0612/IMU_Gesture_Classifier
+cd IMU_Gesture_Classifier
+pip install -e .
 ```
 
 Download `gesture_data/` (see [Data](#data)), then:
@@ -68,25 +78,38 @@ python -m imu_gesture.inference \
     --stage2 gesture_data/models/stage2_tcn_seq100.pt
 ```
 
+Each module is also installed as a command: `imu-collector`, `imu-stats`,
+`imu-train-stage1`, `imu-train-stage2` and `imu-inference` take the same arguments.
+
 ## Method
 
-**Why two stages.** A fifteen-class model run continuously on a sliding window has to
+### Why two stages
+
+A fifteen-class model run continuously on a sliding window has to
 decide, at every step, both whether anything is happening and what it is. Splitting
 those questions lets the first model stay small enough to run on every window while
 the second sees a complete gesture rather than a fragment of one.
 
-**Stage 1, entry detection.** A binary model over a sliding window of the six watch
+### Stage 1, entry detection
+
+A binary model over a sliding window of the six watch
 channels. The window length and stride are part of the grid search, not fixed in
 advance.
 
-**Stage 2, classification.** A detection opens a 2.5 second buffer. The classifier is
+### Stage 2, classification
+
+A detection opens a 2.5 second buffer. The classifier is
 then run over several windows inside that buffer and the highest-confidence result
 wins, so the gesture does not have to start exactly where the detector fired.
 
-**Channels.** Six, all from the watch: linear acceleration and angular rate in three
+### Channels
+
+Six, all from the watch: linear acceleration and angular rate in three
 axes each. The phone's sensors are received but not used for training.
 
-**Cooldown.** After a recognised gesture the detector is suppressed for a
+### Cooldown
+
+After a recognized gesture the detector is suppressed for a
 configurable interval, two seconds by default, so that one movement cannot produce a
 burst of detections.
 
@@ -119,8 +142,9 @@ imu_gesture/
   train_stage2.py    15-class model, grid search over model
   inference.py       live recognition from the stream
 tests/               channel map and model shape checks
-docs/figures/        README figure and the script that draws it
+docs/figures/        README figure, the script that draws it, figstyle.py
 gesture_data/        recordings, checkpoints and reports, not in git
+pyproject.toml       package definition, dependencies, console scripts
 ```
 
 ## Tests
@@ -132,8 +156,8 @@ unique, that the split ratios sum to one, and that every advertised model builds
 returns one logit per sample for stage 1 and fifteen per sample for stage 2.
 
 ```bash
-pytest -q                    # if pytest is installed
-python tests/test_models.py  # works without it
+python -m pytest -q
+python tests/test_models.py  # without pytest
 ```
 
 ## Data
@@ -171,14 +195,29 @@ the two layouts order their fields differently.
 - **The 2.5 second buffer bounds gesture length.** Anything slower is truncated.
 - **UDP with no sequence number**, so dropped packets shorten a window silently.
 
+## Related
+
+- [IVO](https://github.com/blueion0612/IVO): the presentation controller that loads
+  the checkpoints this repository trains, reading the 30-float packet and remapping
+  the six channels.
+- [IMU_Stream_APP_MJU](https://github.com/blueion0612/IMU_Stream_APP_MJU): the
+  sibling streaming app. It sends the 30-float packet, so it is not a source for this
+  collector; see Data.
+- [PPG_Classifier](https://github.com/blueion0612/PPG_Classifier) and
+  [sEMG_Gesture_Classifier](https://github.com/blueion0612/sEMG_Gesture_Classifier):
+  the same question, hand state from a wrist signal, asked of photoplethysmography
+  and of surface electromyography.
+
 ## Citation
 
 ```bibtex
 @misc{lee2025imugesture,
-  author = {Yuhyeon Lee},
-  title  = {IMU Gesture Classifier: two-stage gesture recognition from smartwatch inertial data},
-  year   = {2025},
-  note   = {Unpublished. https://github.com/blueion0612/IMU_Gesture_Classifier}
+  author  = {Yuhyeon Lee},
+  title   = {IMU Gesture Classifier: two-stage gesture recognition from smartwatch inertial data},
+  year    = {2025},
+  version = {1.0.0},
+  url     = {https://github.com/blueion0612/IMU_Gesture_Classifier},
+  note    = {Unpublished}
 }
 ```
 

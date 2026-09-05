@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "imu-gesture-classifier"
+description = "Two-stage recognition of fifteen hand gestures from smartwatch accelerometer and gyroscope data"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Yuhyeon Lee" }]
+requires-python = ">=3.10"
+dynamic = ["version"]
+dependencies = [
+  "numpy>=1.21",
+  "pandas>=1.3",
+  "scikit-learn>=1.0",
+  "torch>=1.10",
+  "matplotlib>=3.4",
+  "seaborn>=0.11",
+]
+
+[project.urls]
+Repository = "https://github.com/blueion0612/IMU_Gesture_Classifier"
+Portfolio = "https://blueion0612.github.io"
+
+[project.scripts]
+imu-collector = "imu_gesture.collector:main"
+imu-stats = "imu_gesture.stats:main"
+imu-train-stage1 = "imu_gesture.train_stage1:main"
+imu-train-stage2 = "imu_gesture.train_stage2:main"
+imu-inference = "imu_gesture.inference:main"
+
+[tool.setuptools]
+packages = ["imu_gesture"]
+
+[tool.setuptools.dynamic]
+version = { attr = "imu_gesture.__version__" }
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

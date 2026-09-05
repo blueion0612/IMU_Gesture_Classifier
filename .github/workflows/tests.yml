@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.10", "3.12"]
+        python-version: ["3.10", "3.11", "3.12"]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -22,10 +22,14 @@ jobs:
       - name: Install (CPU-only torch keeps the job small)
         run: |
           pip install torch --index-url https://download.pytorch.org/whl/cpu
-          pip install -r requirements.txt pytest
-      - run: pytest -q
-      - name: Every entry point resolves
+          pip install -e . pytest
+      - name: Unit tests
+        run: python -m pytest -q
+      - name: Every entry point resolves, as a module and as a command
         run: |
           for m in collector stats train_stage1 train_stage2 inference; do
             python -m imu_gesture."$m" --help > /dev/null
+          done
+          for c in imu-collector imu-stats imu-train-stage1 imu-train-stage2 imu-inference; do
+            "$c" --help > /dev/null
           done
